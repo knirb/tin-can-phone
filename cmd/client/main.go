@@ -16,7 +16,7 @@ func main() {
 	}
 	opts.Query["user"] = "user"
 	opts.Query["pwd"] = "pass"
-	uri := "http://localhost:8000/socket.io/"
+	uri := "http://db85-151-236-205-132.ngrok.io/socket.io/"
 
 	client, err := socketio_client.NewClient(uri, opts)
 	if err != nil {
@@ -30,7 +30,7 @@ func main() {
 	client.On("connection", func() {
 		log.Printf("on connect\n")
 	})
-	client.On("message", func(msg string) {
+	client.On("msg", func(msg string) {
 		log.Printf("on message:%v\n", msg)
 	})
 	client.On("disconnection", func() {
@@ -41,7 +41,7 @@ func main() {
 	for {
 		data, _, _ := reader.ReadLine()
 		command := string(data)
-		client.Emit("message", command)
+		client.Emit("msg", command)
 		log.Printf("send message:%v\n", command)
 	}
 }

@@ -27,6 +27,11 @@ func main() {
 		return nil
 	})
 
+	server.OnEvent("/", "msg", func(s socketio.Conn, msg string) string {
+		s.SetContext(msg)
+		return "recv " + msg
+	})
+
 	go server.Serve()
 	defer server.Close()
 
